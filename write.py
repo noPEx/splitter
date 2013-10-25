@@ -8,18 +8,24 @@ def get_initial_name(name):
 def get_chunk_file_name(name,index):
     chunkname = name+'.r'+str(index)
     return chunkname	
+
+def filename_sort(name):
+    number = int(name[ name.rfind('.r')+2: ])
+    return number
 kb = 1024
 mb = 1024*kb
 chunksize = 100*mb
 
 files_in_current_directory = [f for f in os.listdir('.') if os.path.isfile(f) and f.rfind('.r') != -1]
-files_in_current_directory.sort()
-print 'files are ',files_in_current_directory
+files_in_current_directory.sort(key=filename_sort)
+file_prefix = get_initial_name(files_in_current_directory[0])
+print'file_prefix is :', file_prefix
+print 'sorted files are ',files_in_current_directory
 
 
 
-print 'first_chunk_name is ', first_chunk_name
-file_prefix = first_chunk_name[ :first_chunk_name.rfind('.r')]
+#print 'first_chunk_name is ', first_chunk_name
+#file_prefix = first_chunk_name[ :first_chunk_name.rfind('.r')]
 print 'file_prefix is :', file_prefix
 
 output_file_name = file_prefix+'.mp4'
@@ -31,6 +37,6 @@ for filename in files_in_current_directory:
     sizeoffile = statinfo.st_size
 
     data_to_write = fr.read()
-    fw.write( data_to_write )
+    #fw.write( data_to_write )
 
 fw.close()
